@@ -45,13 +45,13 @@ print("P(B) =", p(B))
 print("验证 p(A|B) = p(B|A)p(A) / p(B)")
 print("left =", pp(A, B))
 print("right =", pp(B, A) * p(A) / p(B))
-print("手动比对，如果 left 和 right 相差不大，则说明各个函数的实现是正确")
+print("肉眼观察，确保没有问题。如果 left 和 right 相差不大，则说明各个函数的实现是正确")
 
 print("======== 开始 ========")
 s = 100
+n = 1000
 correct = 0
 for i in range(s):
-    n = 1000
 
     #print("计算",n,"次")    
     #print("验证 p(A|B) ∝ p(B|A)p(A)")
@@ -102,6 +102,9 @@ for i in range(s):
 print("======== 结束 ========")
 #print("判断标准: sigmoid(相关系数) > ", threshold)
 print("判断标准: 相关系数 > ", threshold)
+print("样本数量:", num_samples)
+print("序列长度:", n)
+print("计算次数",s,"次")
 print("正确率:", correct / s)
 print("如果正确率接近1, 则说明: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A) / p(B) 是等价的")
 
