@@ -107,6 +107,6 @@ print("总样本数量:", num_samples * n * s)
 print("序列长度:", n)
 print("计算次数",s,"次")
 print("正确率:", correct / s)
-print("如果正确率接近1, 则说明: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A) / p(B) 是等价的")
+print("如果正确率接近1, 则说明: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A)/p(B) 要么都是对的，要么都是错的")
 
 
