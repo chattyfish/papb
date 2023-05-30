@@ -19,11 +19,6 @@ def calc_corr(x,y):
 
     return corr
 
-# sigmoid 函数, 帮助判断 
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-#threshold = 0.6224593312018546
 threshold = 0.5
 
 print("预热...")
@@ -53,54 +48,25 @@ n = 1000
 correct = 0
 for i in range(s):
 
-    #print("计算",n,"次")    
-    #print("验证 p(A|B) ∝ p(B|A)p(A)")
-
     x1 = []
     x2 = []
+    x3 = []
     for i in range(n):
         A = np.random.choice([True, False], num_samples)
         B = np.random.choice([True, False], num_samples)
         x1.append(pp(A, B))
         x2.append(pp(B, A) * p(A))
+        x3.append(pp(B, A) / p(B))
 
-    left = np.array(x1)
-    right = np.array(x2)
-    corr1 = calc_corr(left,right)
-    #print("相关系数(-1 ~ 1):", corr1)
-    #print("激活：", sigmoid(corr1))
-    #if sigmoid(corr1) > threshold:
-    #    print("验证通过")
-    #if corr1 > threshold:
-    #    print("验证通过")
-
-
-    #print("计算",n,"次")    
-    #print("验证 p(A|B) ∝ p(B|A) / p(B)")
-
-    x1 = []
-    x2 = []
-    for i in range(n):
-        A = np.random.choice([True, False], num_samples)
-        B = np.random.choice([True, False], num_samples)
-        x1.append(pp(A, B))
-        x2.append(pp(B, A) / p(B))
-
-    left = np.array(x1)
-    right = np.array(x2)
-    corr2 = calc_corr(left,right)
-    #print("相关系数(-1 ~ 1):", corr2)
-    #print("激活：", sigmoid(corr2))
-    #if sigmoid(corr2) > threshold:
-    #    print("验证通过")
-    #if corr2 > threshold:
-    #    print("验证通过")
-
-    #if sigmoid(corr1) > threshold and sigmoid(corr2) > threshold:
+    c1 = np.array(x1)
+    c2 = np.array(x2)
+    c3 = np.array(x3)
+    corr1 = calc_corr(c1,c2)
+    corr2 = calc_corr(c1,c3)
     if corr1 > threshold and corr2 > threshold:
         correct += 1
 print("======== 结束 ========")
-#print("判断标准: sigmoid(相关系数) > ", threshold)
+
 print("判断标准: 相关系数 > ", threshold)
 print("样本数量:", num_samples)
 print("总样本数量:", num_samples * n * s)
