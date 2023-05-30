@@ -6,7 +6,7 @@ def p(X):
     """
     return np.mean(X)
 
-def p_A_given_B(A, B):
+def pp(A, B):
     """
     计算 P(A|B)
     """
@@ -33,17 +33,17 @@ num_samples = 10000
 A = np.random.choice([True, False], num_samples)
 B = np.random.choice([True, False], num_samples)
 
-print("P(A|B) =", p_A_given_B(A, B))
+print("P(A|B) =", pp(A, B))
 
-print("P(B|A) =", p_A_given_B(B, A))
+print("P(B|A) =", pp(B, A))
 
 print("P(A) =", p(A))
 
 print("P(B) =", p(B))
 
 print("验证 p(A|B) = p(B|A)p(A) / p(B)")
-print("left =", p_A_given_B(A, B))
-print("right =", p_A_given_B(B, A) * p(A) / p(B))
+print("left =", pp(A, B))
+print("right =", pp(B, A) * p(A) / p(B))
 print("手动比对，如果 left 和 right 相差不大，则说明预热成功")
 
 print("======== 开始 ========")
@@ -60,8 +60,8 @@ for i in range(s):
     for i in range(n):
         A = np.random.choice([True, False], num_samples)
         B = np.random.choice([True, False], num_samples)
-        x1.append(p_A_given_B(A, B))
-        x2.append(p_A_given_B(B, A) * p(A))
+        x1.append(pp(A, B))
+        x2.append(pp(B, A) * p(A))
 
     left = np.array(x1)
     right = np.array(x2)
@@ -80,8 +80,8 @@ for i in range(s):
     for i in range(n):
         A = np.random.choice([True, False], num_samples)
         B = np.random.choice([True, False], num_samples)
-        x1.append(p_A_given_B(A, B))
-        x2.append(p_A_given_B(B, A) / p(B))
+        x1.append(pp(A, B))
+        x2.append(pp(B, A) / p(B))
 
     left = np.array(x1)
     right = np.array(x2)
