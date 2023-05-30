@@ -23,6 +23,8 @@ def calc_corr(x,y):
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+threshold = 0.6224593312018546
+
 print("预热...")
 # 模拟随机事件 A 和 B
 # 假设 A 和 B 都是二元事件，即 True 或 False
@@ -66,7 +68,7 @@ for i in range(s):
     corr1 = calc_corr(left,right)
     print("相关系数(-1 ~ 1):", corr1)
     print("激活：", sigmoid(corr1))
-    if sigmoid(corr1) > 0.5:
+    if sigmoid(corr1) > threshold:
         print("验证通过")
 
 
@@ -86,12 +88,13 @@ for i in range(s):
     corr2 = calc_corr(left,right)
     print("相关系数(-1 ~ 1):", corr2)
     print("激活：", sigmoid(corr2))
-    if sigmoid(corr2) > 0.5:
+    if sigmoid(corr2) > threshold:
         print("验证通过")
 
-    if sigmoid(corr1) > 0.5 and sigmoid(corr2) > 0.5:
+    if sigmoid(corr1) > threshold and sigmoid(corr2) > threshold:
         correct += 1
 print("======== 结束 ========")
+print("判断标准: sigmoid(相关系数) > ", threshold)
 print("正确率:", correct / s)
 print("如果正确率接近1, 则说明: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A) / p(B) 是等价的")
 
