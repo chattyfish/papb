@@ -41,7 +41,7 @@ print("验证 p(A|B) = p(B|A)p(A) / p(B)")
 print("left =", pp(A, B))
 print("right =", pp(B, A) * p(A) / p(B))
 print("肉眼观察，确保没有问题。如果 left 和 right 相差不大，则说明各个函数的实现是正确")
-
+print("预热结束")
 print("======== 开始验证 p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A)/p(B) ========")
 s = 100
 n = 1000
