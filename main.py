@@ -1,5 +1,32 @@
 import numpy as np
 
+# 生成伯努利分布的随机事件
+def bernoulli(size, p1=0.3, p2=0.6):
+
+    A = np.random.choice([True, False], size, p=[p1, 1-p1])
+    B = np.random.choice([True, False], size, p=[p2, 1-p2])
+    return A, B
+
+
+# 非等概率的二元事件
+def random_choice(num_samples, p1=0.5, p2=0.5):
+
+    A = np.random.choice([True, False], num_samples, p=[p1, 1 - p1])
+    B = np.random.choice([True, False], num_samples, p=[p2, 1 - p2])
+
+    return A, B
+
+# 等概率的二元事件
+def random_choice_equal(num_samples, p1=0.5, p2=0.5):
+    
+    return random_choice(num_samples, p1, p2)
+
+
+# 生成随机事件的函数
+#generate_event = random_choice_equal
+#generate_event = random_choice
+generate_event = bernoulli
+
 def p(X):
     """
     计算 P(X)
@@ -23,11 +50,9 @@ threshold = 0.5
 
 print("预热...")
 # 模拟随机事件 A 和 B
-# 假设 A 和 B 都是二元事件，即 True 或 False
-# 这里仅作示例，您可以根据实际情况进行修改
+# 假设 A 和 B 都是二元等概率事件，即 True 或 False
 num_samples = 10000
-A = np.random.choice([True, False], num_samples)
-B = np.random.choice([True, False], num_samples)
+A, B = generate_event(num_samples)
 
 print("P(A|B) =", pp(A, B))
 
@@ -52,8 +77,7 @@ for i in range(s):
     x2 = []
     x3 = []
     for i in range(n):
-        A = np.random.choice([True, False], num_samples)
-        B = np.random.choice([True, False], num_samples)
+        A, B = generate_event(num_samples)
         x1.append(pp(A, B))
         x2.append(pp(B, A) * p(A))
         x3.append(pp(B, A) / p(B))
@@ -73,6 +97,6 @@ print("总样本数量:", num_samples * n * s)
 print("序列长度:", n)
 print("计算次数",s,"次")
 print("正确率:", correct / s)
-print("如果正确率接近1, 则可以相信: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A)/p(B) 是等价的")
+print("如果正确率接近1, 则可以相信: p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A)/p(B) 是成立的")
 
 
