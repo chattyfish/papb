@@ -27,11 +27,36 @@ def exponential(size, lambda1=0.3, lambda2=0.6, threshold=0.5):
     B = np.random.exponential(lambda2, size) > threshold
     return A, B
 
-# 生成随机事件的函数
-generate_event = random_choice_equal
-#generate_event = random_choice
-#generate_event = bernoulli
-#generate_event = exponential
+# 生成泊松分布的随机事件
+def poisson(size, lambda1=3, lambda2=6, threshold=4):
+    A = np.random.poisson(lambda1, size) > threshold
+    B = np.random.poisson(lambda2, size) > threshold
+    return A, B
+
+
+# 生成独立的二元概率分布, 事件A和事件B发生的概率不同
+def different_probabilities(size, p1=0.3, p2=0.7):
+
+    A = np.random.choice([True, False], size, p=[p1, 1-p1])
+    B = np.random.choice([True, False], size, p=[p2, 1-p2])
+    return A, B
+
+# 生成有依赖关系的随机事件
+def dependent_events(size, p1=0.3, p2=0.6, dependence=0.2):
+    B = np.random.choice([True, False], size, p=[p2, 1-p2])
+    A = np.empty(size, dtype=bool)
+    for i in range(size):
+        if B[i]:
+            A[i] = np.random.choice([True, False], p=[p1 + dependence, 1 - (p1 + dependence)])
+        else:
+            A[i] = np.random.choice([True, False], p=[p1 - dependence, 1 - (p1 - dependence)])
+    return A, B
+
+# 生成二项分布的随机事件
+def binomial(size, p1=0.3, p2=0.6):
+    A = np.random.binomial(1, p1, size).astype(bool)
+    B = np.random.binomial(1, p2, size).astype(bool)
+    return A, B
 
 def p(X):
     """
@@ -52,12 +77,29 @@ def calc_corr(x,y):
 
     return corr
 
+# 生成随机事件的函数
+generate_event = random_choice_equal
+#generate_event = random_choice
+#generate_event = bernoulli
+#generate_event = exponential
+#generate_event = poisson
+#generate_event = different_probabilities
+#generate_event = binomial
+
+#generate_event = dependent_events
+
+
 threshold = 0.5
+num_samples = 10000
+#repeat
+s = 100
+#sequence length
+n = 1000
 
 print("预热...")
+print("分布: ", generate_event.__name__)
 # 模拟随机事件 A 和 B
-# 假设 A 和 B 都是二元等概率事件，即 True 或 False
-num_samples = 10000
+
 A, B = generate_event(num_samples)
 
 print("P(A|B) =", pp(A, B))
@@ -74,8 +116,7 @@ print("right =", pp(B, A) * p(A) / p(B))
 print("肉眼观察，确保没有问题。如果 left 和 right 相差不大，则说明各个函数的实现是正确")
 print("预热结束")
 print("======== 开始验证 p(A|B) ∝ p(B|A)p(A) 和 p(A|B) ∝ p(B|A)/p(B) ========")
-s = 100
-n = 1000
+
 correct = 0
 for i in range(s):
 
