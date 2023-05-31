@@ -21,11 +21,17 @@ def random_choice_equal(num_samples, p1=0.5, p2=0.5):
     
     return random_choice(num_samples, p1, p2)
 
+# 生成指数分布的随机事件
+def exponential(size, lambda1=0.3, lambda2=0.6, threshold=0.5):
+    A = np.random.exponential(lambda1, size) > threshold
+    B = np.random.exponential(lambda2, size) > threshold
+    return A, B
 
 # 生成随机事件的函数
-#generate_event = random_choice_equal
+generate_event = random_choice_equal
 #generate_event = random_choice
-generate_event = bernoulli
+#generate_event = bernoulli
+#generate_event = exponential
 
 def p(X):
     """
